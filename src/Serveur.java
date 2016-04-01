@@ -1,12 +1,14 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class Serveur {
 	public static ServerSocket socketserver  ;
 	public static Socket socket ;
 	public static BufferedReader in;
 	public static PrintWriter out;
-	public static Thread t1;
+	public static Thread t;
+	private static ArrayList<Client> listClient = new ArrayList<Client>();
 
 	public static void main(String[] zero) {
 		
@@ -16,13 +18,14 @@ public class Serveur {
 			
 			while(true){
 				socket = socketserver.accept();
-				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				out = new PrintWriter(socket.getOutputStream());
 				String message = in.readLine();
 				System.out.println(message+" connected");
 				
-				t1 = new Thread(new Transmission(in,out));
-				t1.start();
+				Client client = new Client(message,socket);
+				listClient.add(client);
+				
+				t = new Thread(new Transmission(listClient, client));
+				t.start();
 		
 			}
 			
