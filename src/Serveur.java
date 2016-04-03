@@ -6,18 +6,18 @@ public class Serveur {
 	public static ServerSocket socketserver  ;
 	public static Socket socket ;
 	public static BufferedReader in;
-	public static PrintWriter out;
 	public static Thread t;
 	private static ArrayList<Client> listClient = new ArrayList<Client>();
 
 	public static void main(String[] zero) {
 		
 		try {
-			socketserver = new ServerSocket(2009,2);
+			socketserver = new ServerSocket(2009);
 			System.out.println("Le serveur est à l'écoute du port "+socketserver.getLocalPort());
 			
 			while(true){
 				socket = socketserver.accept();
+				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String message = in.readLine();
 				System.out.println(message+" connected");
 				

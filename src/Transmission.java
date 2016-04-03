@@ -22,6 +22,9 @@ public class Transmission implements Runnable{
 	        try {
 	        	in = new BufferedReader(new InputStreamReader(myClient.getSocket().getInputStream()));
 	        	message = in.readLine();
+	        
+	        	if(message == null)
+	        		break;
 	        	
 			for(Client client : listClient){
 				if(client != myClient){
